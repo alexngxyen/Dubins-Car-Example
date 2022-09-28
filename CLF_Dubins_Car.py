@@ -84,7 +84,7 @@ simulation_length = math.ceil(simulation_time / sampling_time)
 number_of_states         = 3
 constant_velocity        = 1                                                              # (Linear) Velocity [m/s]
 initial_states           = np.array([0, 5, 0])                                            # Initial Robot States [x-position, y-position, heading]
-goal_position_states     = np.array([12, -3])                                              # Goal Position States [x-position, y-position]
+goal_position_states     = np.array([8, -3])                                              # Goal Position States [x-position, y-position]
 
 # Gravity Parameter
 gravity = 9.81                                                                            # Constant Gravity Field [m/s^2]
@@ -161,13 +161,13 @@ for k in range(simulation_length):
     control_input_history[:, k]  = u_optimal
     time_history[k+1]            = solution.t[-1] 
     CLF_history[k]               = clf
-    CLF_certificate_history[k]   = lie_derivative_f_clf + lie_derivative_g_clf*u_optimal + clf_rate*clf - slack_optimal
+    CLF_certificate_history[k]   = lie_derivative_f_clf + lie_derivative_g_clf*u_optimal + clf_rate*clf #- slack_optimal
 
     # Update Time
     time += sampling_time
 
     # Break Condition
-    if linalg.norm(states[0:2] - goal_position_states) < 0.25:
+    if linalg.norm(states[0:2] - goal_position_states) < 0.1:
         break
 
 # Delete Extra Preallocated Space
@@ -231,9 +231,9 @@ if show_CLF:
     plt.figure()
     plt.plot(time_history[:-1], CLF_certificate_history, 'k', linewidth=2)
     plt.xlabel('Time (s)')
-    plt.ylabel(r'$\dot{V} + \gamma (V) - \delta$')
+    plt.ylabel(r'$\dot{V} + \gamma V$')
     plt.legend(['Control Lyapunov Certificate'], loc='best')    
     plt.xlim(time_history[0], time_history[-1])
-    
+
 # Show Plots
 plt.show()
