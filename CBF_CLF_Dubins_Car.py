@@ -245,8 +245,8 @@ print('Robot got within {} m goal position!\n'.format(linalg.norm(states[0:2] - 
 # Logical Variables
 show_simulation_environment = True
 show_input_and_states       = True
-show_CBF                    = False
-show_CLF                    = False
+show_CBF                    = True
+show_CLF                    = True
 
 if show_simulation_environment:
     # Simulation Environment
