@@ -66,13 +66,13 @@ def defineClf(robot_states, goal_position_states):
 ## This function defines the control lyapunov function for the Dubins car problem.
     
     # Difference X and Y Positions of Robot and Obstacle 
-    x_position_diff = (robot_states[0] - goal_position_states[0])
-    y_position_diff = (robot_states[1] - goal_position_states[1])
+    x_position_diff = (goal_position_states[0] - robot_states[0])
+    y_position_diff = (goal_position_states[1] - robot_states[1])
 
-    # Define the Control Barrier Function
-    term_one = math.cos(robot_states[2])*y_position_diff
-    term_two = -math.sin(robot_states[2])*x_position_diff
-    control_lyapunov_function = (term_one + term_two)**2
+    # Define the Control Lyapunov Function (CLF) [i.e., Squared Heading Error]
+    term_one = math.tan(robot_states[2])
+    term_two = y_position_diff/x_position_diff
+    control_lyapunov_function = (term_one - term_two)**2
 
     return control_lyapunov_function
 
@@ -83,13 +83,13 @@ def defineClfDerivative(robot_states, constant_velocity, goal_position_states):
     f, g = dubinsCarDynamics(constant_velocity, robot_states[2])
 
     # Difference X and Y Positions of Robot and Obstacle 
-    x_position_diff = (robot_states[0] - goal_position_states[0])
-    y_position_diff = (robot_states[1] - goal_position_states[1])
+    x_position_diff = (goal_position_states[0] - robot_states[0])
+    y_position_diff = (goal_position_states[1] - robot_states[1])
 
     # CLF Derivative 
-    term_one       = 2*math.sin(robot_states[2])*(math.sin(robot_states[2])*x_position_diff - math.cos(robot_states[2])*y_position_diff)
-    term_two       = -2*math.cos(robot_states[2])*(math.sin(robot_states[2])*x_position_diff - math.cos(robot_states[2])*y_position_diff)
-    term_three     = 2*(math.sin(robot_states[2])*x_position_diff - math.cos(robot_states[2])*y_position_diff)*(math.cos(robot_states[2])*x_position_diff + math.sin(robot_states[2])*y_position_diff)
+    term_one       = -(2*y_position_diff/x_position_diff**2)*(math.tan(robot_states[2]) - (y_position_diff/x_position_diff))
+    term_two       = (2/x_position_diff)*(math.tan(robot_states[2]) - (y_position_diff/x_position_diff))
+    term_three     = (2/math.cos(robot_states[2])**2)*(math.tan(robot_states[2]) - (y_position_diff/x_position_diff))
     clf_derivative = np.array([term_one, term_two, term_three])
 
     # CLF Lie Derivative
@@ -222,7 +222,7 @@ for k in range(simulation_length):
     time += sampling_time
 
     # Break Condition
-    if linalg.norm(states[0:2] - goal_position_states) < 0.25:
+    if linalg.norm(states[0:2] - goal_position_states) < 0.05:
         break
 
 # Delete Extra Preallocated Space

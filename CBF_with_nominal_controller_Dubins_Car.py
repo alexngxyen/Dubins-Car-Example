@@ -244,7 +244,7 @@ if show_CBF:
     plt.figure()
     plt.plot(time_history[:-1], CBF_certificate_history, 'b', linewidth=2)
     plt.xlabel('Time (s)')
-    plt.ylabel(r'$\dot{h} + \alpha h$')
+    plt.ylabel(r'$\dot{h} + \alpha (h)$')
     plt.legend(['Control Barrier Certificate'], loc='best')    
     plt.xlim(time_history[0], time_history[-1])
     
