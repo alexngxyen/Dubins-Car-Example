@@ -159,9 +159,10 @@ for k in range(simulation_length):
     prob        = cp.Problem(objective, constraints)
     prob.solve()
 
-    # Check Optimization Solution Status
+    # Check Optimization Solution's Status
     if abs(prob.value) == math.inf:
-        print('\nOptimization Problem Status:', prob.status, '\n')
+        print('\n\nmOptimization Problem Status:', prob.status, '\n')
+        break
 
     # Extract Optimal Control Inputs
     u_optimal = x.value 
@@ -196,16 +197,24 @@ time_history            = time_history[:k+2]
 # End Timer
 end_time = timeit.default_timer() 
 
-# Print Simulation Time
-print('\nSimulation Time = {}; Run Time = {}'.format(time_history[-1], end_time - start_time))
-print('Robot got within {} m goal position!\n'.format(linalg.norm(states[0:2] - goal_position_states)))
+# Set Logical Variables and Print Results
+if abs(prob.value) == math.inf:
+    # Logical Variables
+    show_simulation_environment = False
+    show_input_and_states       = False
+    show_CBF                    = False  
+
+else:
+    # Print Simulation Time
+    print('\nSimulation Time = {}; Run Time = {}'.format(time_history[-1], end_time - start_time))
+    print('Robot got within {} m goal position!\n'.format(linalg.norm(states[0:2] - goal_position_states)))
+
+    # Logical Variables
+    show_simulation_environment = True
+    show_input_and_states       = True
+    show_CBF                    = False
 
 """ Plot Results """
-# Logical Variables
-show_simulation_environment = True
-show_input_and_states       = True
-show_CBF                    = False
-
 if show_simulation_environment:
     # Simulation Environment
     plt.figure()
