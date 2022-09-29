@@ -199,6 +199,10 @@ for k in range(simulation_length):
     prob        = cp.Problem(objective, constraints)
     prob.solve()
 
+    # Optimization is Feasible
+    if len(x.value) == 0:
+        print('\nOptimization Problem is Infeasible! \n')
+
     # Extract Optimal Control Inputs
     u_optimal     = x.value[0:number_of_inputs] 
     slack_optimal = x.value[-1]
@@ -245,8 +249,8 @@ print('Robot got within {} m goal position!\n'.format(linalg.norm(states[0:2] - 
 # Logical Variables
 show_simulation_environment = True
 show_input_and_states       = True
-show_CBF                    = True
-show_CLF                    = True
+show_CBF                    = False
+show_CLF                    = False
 
 if show_simulation_environment:
     # Simulation Environment
