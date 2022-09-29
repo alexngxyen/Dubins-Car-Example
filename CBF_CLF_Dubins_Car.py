@@ -199,9 +199,9 @@ for k in range(simulation_length):
     prob        = cp.Problem(objective, constraints)
     prob.solve()
 
-    # Optimization is Feasible
-    if len(x.value) == 0:
-        print('\nOptimization Problem is Infeasible! \n')
+    # Check Optimization Solution Status
+    if abs(prob.value) == math.inf:
+        print('\nOptimization Problem Status:', prob.status, '\n')
 
     # Extract Optimal Control Inputs
     u_optimal     = x.value[0:number_of_inputs] 
