@@ -204,15 +204,18 @@ else:
 
 """ Plot Results """
 if show_simulation_environment:
-    # Simulation Environment
+# Visualize Simulation Environment 
     plt.figure()
-    plt.scatter(state_vector_history[0, 0], state_vector_history[1, 0], s=50, c='g')
-    plt.scatter(goal_position_states[0], goal_position_states[1], s=50, c='r')
-    plt.plot(state_vector_history[0, :], state_vector_history[1, :], 'k', linewidth=2)
-    plt.axis('equal')
-    plt.xlabel('East (m)') 
-    plt.ylabel('North (m)')
-    plt.legend(['Start Point', 'Goal Point', 'Robot Trajectory'], loc='best')     
+    for i_plt in range(k):
+        plt.scatter(state_vector_history[0, 0], state_vector_history[1, 0], s=50, c='g')
+        plt.scatter(goal_position_states[0], goal_position_states[1], s=50, c='r')
+        plt.plot(state_vector_history[0, :i_plt+1], state_vector_history[1, :i_plt+1], 'k', linewidth=2)
+        plt.axis('equal')
+        plt.xlabel('East (m)') 
+        plt.ylabel('North (m)')
+        plt.legend(['Start Point', 'Goal Point', 'Robot Trajectory'], loc='best')  
+        plt.pause(0.0015) 
+        plt.clf()   
 
 if show_input_and_states:
     # Control Input 
