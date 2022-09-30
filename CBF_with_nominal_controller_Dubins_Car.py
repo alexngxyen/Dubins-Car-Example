@@ -85,8 +85,8 @@ simulation_length = math.ceil(simulation_time / sampling_time)
 number_of_states         = 3
 constant_velocity        = 1                                                              # (Linear) Velocity [m/s]
 obstacle_radius          = 2                                                              # Obstacle's Radius [m]
-initial_states           = np.array([0, 7, 0])                                            # Initial Robot States [x-position, y-position, heading]
-obstacle_position_states = np.array([5, 4])                                               # Obstacle Position States [x-position, y-position]
+initial_states           = np.array([0, 5, 0])                                            # Initial Robot States [x-position, y-position, heading]
+obstacle_position_states = np.array([5, 3])                                               # Obstacle Position States [x-position, y-position]
 goal_position_states     = np.array([10, 0])                                              # Goal Position States [x-position, y-position]
 
 # Obstacle
@@ -161,7 +161,7 @@ for k in range(simulation_length):
 
     # Check Optimization Solution's Status
     if abs(prob.value) == math.inf:
-        print('\n\nmOptimization Problem Status:', prob.status, '\n')
+        print('\n\nOptimization Problem Status:', prob.status, '\n')
         break
 
     # Extract Optimal Control Inputs
