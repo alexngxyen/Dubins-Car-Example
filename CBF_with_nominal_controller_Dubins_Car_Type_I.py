@@ -1,8 +1,8 @@
 #  ============================================================================
-#  Name        : CBF_with_nominal_controller_CLF_Dubins_Car.py
+#  Name        : CBF_with_nominal_controller_CLF_Dubins_Car_Type_I.py
 #  Description : Constraint driven control implementation on the Dubins car toy 
 #                example problem using a CBF certificate with a nominal control 
-#                input
+#                input (for loop implementation).
 #  Author      : Alex Nguyen
 #  Date        : September 2022
 #  ============================================================================
@@ -77,7 +77,7 @@ def dublinCarDynamics(t, y, constant_velocity, control_input):
 
 """ Simulation Settings """
 # Time Parameters
-sampling_time     = 0.05
+sampling_time     = 0.01
 simulation_time   = 20                                                                    # Simulation Time Allocated (Could Be Less!)
 simulation_length = math.ceil(simulation_time / sampling_time)
 
@@ -218,7 +218,7 @@ else:
 if show_simulation_environment:
 # Visualize Simulation Environment 
     plt.figure()
-    for i_plt in range(0, k+1, 3):
+    for i_plt in range(0, k+1, 12):
         plt.scatter(state_vector_history[0, 0], state_vector_history[1, 0], s=50, c='g')
         plt.scatter(goal_position_states[0], goal_position_states[1], s=50, c='r')
         plt.plot(state_vector_history[0, :i_plt+1], state_vector_history[1, :i_plt+1], 'k', linewidth=2)
