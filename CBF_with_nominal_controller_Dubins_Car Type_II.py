@@ -76,10 +76,8 @@ def dublinCarDynamics(t, y, constant_velocity, control_input):
     return dydt
 
 """ Simulation Settings """
-# Time Parameters
-sampling_time     = 0.01
-break_condition   = 0.05                                                                   
-simulation_length = math.ceil(50 / sampling_time)
+# Time Parameter
+sampling_time = 0.01
 
 # State Parameters
 number_of_states         = 3
@@ -119,9 +117,10 @@ time_history            = []
 start_time = timeit.default_timer() 
 
 # Initialize Loop Vectors
-states = initial_states
-time   = 0
-k      = 0
+break_condition = 0.05                                                                    # Distance Between Agent and Goal Point (e.g., Break Condition)                                             
+states          = initial_states
+time            = 0
+k               = 0
 
 # Initialize History Vectors
 state_vector_history = states.reshape(number_of_states, 1)
