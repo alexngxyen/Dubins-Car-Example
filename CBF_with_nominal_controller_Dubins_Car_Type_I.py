@@ -233,7 +233,7 @@ if show_simulation_environment:
 if show_input_and_states:
     # Control Input 
     plt.figure()
-    plt.plot(time_history[:-1], control_input_history[0, :], 'r', linewidth=2)
+    plt.plot(time_history[:-1], control_input_history[0, 1:], 'r', linewidth=2)
     plt.xlabel('Time (s)')
     plt.ylabel('Control Input (rad/s)')
     plt.xlim(time_history[0], time_history[-1])

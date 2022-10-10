@@ -106,8 +106,6 @@ max_control_input = 3                                                           
 min_control_input = -3                                                                    # Minimum Control Input
 
 # Preallocate Variables
-state_vector_history    = []
-control_input_history   = []
 CBF_history             = []
 CBF_certificate_history = []
 time_history            = []
@@ -123,8 +121,9 @@ time            = 0
 k               = 0
 
 # Initialize History Vectors
-state_vector_history = states.reshape(number_of_states, 1)
-time_history         = time
+state_vector_history  = states.reshape(number_of_states, 1)
+control_input_history = np.zeros((number_of_inputs, 1))
+time_history          = time
 
 while linalg.norm(states[0:2] - goal_position_states) >= break_condition:
     # Compute Nominal Controller
@@ -175,7 +174,7 @@ while linalg.norm(states[0:2] - goal_position_states) >= break_condition:
 
     # Save Variables
     state_vector_history    = np.append(state_vector_history, states.reshape(number_of_states, 1), axis=1)
-    control_input_history   = np.append(control_input_history, u_optimal.reshape(number_of_inputs, 1)) 
+    control_input_history   = np.append(control_input_history, u_optimal.reshape(number_of_inputs, 1), axis=1)
     time_history            = np.append(time_history, time)
     CBF_history             = np.append(CBF_history, cbf)
     CBF_certificate_history = np.append(CBF_certificate_history, lie_derivative_f_cbf + lie_derivative_g_cbf*u_optimal + cbf_rate*cbf**3)
@@ -225,7 +224,7 @@ if show_simulation_environment:
 if show_input_and_states:
     # Control Input 
     plt.figure()
-    plt.plot(time_history[:-1], control_input_history, 'r', linewidth=2)
+    plt.plot(time_history[:-1], control_input_history[0, 1:], 'r', linewidth=2)
     plt.xlabel('Time (s)')
     plt.ylabel('Control Input (rad/s)')
     plt.xlim(time_history[0], time_history[-1])
